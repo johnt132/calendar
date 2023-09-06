@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>demo</title>
+		<meta charset="utf-8">
+    </head>
+    <body>
+        <div id="app">
+                <p class="pali col-12 text-center" v-html="displayedKhmerDate"></p> 
+        </div>
+        <script src="vue.min.js"></script>
+        <script src="moment.min.js"></script>
+        <script src="km.min.js"></script>
+        <script src="vuejs-datepicker.min.js"></script>
+        <script src="./constant.js"></script>
+        <script src="./locale/km.js"></script>
+        <script src="./getSoriyatraLerngSak.js"></script>
+        <script src="./momentkh.js"></script>
+        <script>
+            window.onload = function() {
+                var moment = momentkh(window.moment)
+
+                new Vue({
+                    el: "#app",
+                    data() {
+                        return {
+                            format: 'dN ខែm ឆ្នាំa e ព.ស. b',
+                            now: moment(),
+                            date: moment(),
+                            DatePickerFormat: 'yyyy',
+                            language: {
+                                language: 'Khmer', 
+                                months: ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'], 
+                                monthsAbbr: ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'], 
+                                days: ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បត្តិ៍', 'សុក្រ', 'សៅរ'], 
+                                rtl: false, 
+                                ymd: false, 
+                                yearSuffix: ''
+                            }
+                        }
+                    },
+                    computed: {
+                        displayedKhmerDate() {
+                            return this.now.locale('km').format('ថ្ងៃdddd ទីDD ខែMMMM ឆ្នាំYYYY') + ' ត្រូវនឹងថ្ងៃទី ' + this.now.toKhDate(this.format)
+                        },                        
+                    },
+                    methods: {
+                        pickedYear(year) {
+                            this.date = moment(year)
+                        }
+                    },
+                    mounted() {
+                        setInterval(() => {
+                            this.now = moment()
+                        }, 1000)
+                    },
+                    components: {
+                        'vuejs-datepicker':vuejsDatepicker
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>
